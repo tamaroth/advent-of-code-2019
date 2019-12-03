@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
 
-#include <boost/algorithm/string/classification.hpp> // Include boost::for is_any_of
-#include <boost/algorithm/string/split.hpp> // Include for boost::split
+#include <boost/algorithm/string/classification.hpp>
+#include <boost/algorithm/string/split.hpp>
 
 #include "alarm.hpp"
 #include "../day_factory.hpp"
@@ -71,4 +71,4 @@ void Alarm::run_program(std::vector<int>& source) {
 	}
 }
 
-bool Alarm::s_registered = DayFactory::register_class(Alarm::name(), Alarm::create);
+bool Alarm::s_registered = DayFactory::register_day(Alarm::name(), Alarm::create);

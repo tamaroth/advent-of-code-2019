@@ -7,7 +7,7 @@
 int main()
 {
 	// I should add here some command line processing, but for now I'm too lazy.
-	auto d = DayFactory::create_class("day02");
+	auto d = DayFactory::create_day("day03");
 	if (d != nullptr)
 	{
 		d->part_01();

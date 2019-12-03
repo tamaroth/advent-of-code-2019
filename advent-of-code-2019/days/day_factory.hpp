@@ -11,8 +11,8 @@ class DayFactory {
 public:
 	DayFactory() = delete;
 
-	static bool register_class(const std::string& name, const CreateMethod& create_method);
-	static std::unique_ptr<Day> create_class(const std::string& name);
+	static bool register_day(const std::string& name, const CreateMethod& create_method);
+	static std::unique_ptr<Day> create_day(const std::string& name);
 
 private:
 	static std::map<std::string, CreateMethod> m_methods;

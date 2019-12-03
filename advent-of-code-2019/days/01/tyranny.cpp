@@ -42,4 +42,4 @@ int64_t Tyranny::get_fuel_for_mass(const int64_t& mass) {
 	return 0;
 }
 
-bool Tyranny::s_registered = DayFactory::register_class(Tyranny::name(), Tyranny::create);
+bool Tyranny::s_registered = DayFactory::register_day(Tyranny::name(), Tyranny::create);
