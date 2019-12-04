@@ -10,6 +10,7 @@ add_executable (advent-of-code-2019
 	"days/01/tyranny.cpp"
 	"days/02/alarm.cpp"
 	"days/03/wires.cpp"
+	"days/04/container.cpp"
 	"advent-of-code-2019.cpp" 
 	"advent-of-code-2019.hpp"
 	)
