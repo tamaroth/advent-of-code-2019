@@ -15,8 +15,6 @@ void Alarm::part_01() {
 }
 
 void Alarm::part_02() {
-	int first = 0;
-	int second = 0;
 	for (int first = 0; first < 99; first++) {
 		for (int second = 0; second < 99; second++) {
 			auto program = get_program_from_string(source);

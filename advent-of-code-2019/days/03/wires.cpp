@@ -34,7 +34,8 @@ std::vector<Wires::Step> Wires::get_path_from_string(const std::string& string_p
 	std::vector<std::string> partially_parsed;
 	std::vector<Wires::Step> result;
 	auto identity = string_path[0];
-	boost::split(partially_parsed, string_path.substr(1), boost::is_any_of(","));
+	auto path = string_path.substr(1);
+	boost::split(partially_parsed, path, boost::is_any_of(","));
 	for (const auto& str_step : partially_parsed) {
 		result.push_back(Wires::Step::from_string(str_step, identity));
 	}
@@ -130,6 +131,8 @@ Wires::Coordinate Wires::Panel::get_next_pos(char direction) {
 		break;
 	case 'D':
 		last_pos.y--;
+		break;
+	default:
 		break;
 	}
 	return last_pos;
