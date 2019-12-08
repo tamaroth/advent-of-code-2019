@@ -2,14 +2,15 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "../day.hpp"
 
 
 class Tyranny : public Day {
 public:
-	virtual void part_01() override;
-	virtual void part_02() override;
+	virtual std::string part_01() override;
+	virtual std::string part_02() override;
 
 	static std::unique_ptr<Day> create();
 	static std::string name();
@@ -22,6 +23,6 @@ private:
 	static bool s_registered;
 private:
 	std::vector<int> source{
-		#include "part_01_input.dat"
+		#include "puzzle_input"
 	};
 };

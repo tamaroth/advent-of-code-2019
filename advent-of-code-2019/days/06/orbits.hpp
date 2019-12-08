@@ -24,15 +24,14 @@ public:
 
 class Orbits : public Day {
 public:
-	virtual void part_01() override;
-	virtual void part_02() override;
+	virtual std::string part_01() override;
+	virtual std::string part_02() override;
 
 	static std::unique_ptr<Day> create();
 	static std::string name();
 
 private:
 	void load_map(const std::string& src);
-	std::vector<std::string> split_string_by(const std::string& src, const std::string& delimiter);
 
 private:
 	static bool s_registered;

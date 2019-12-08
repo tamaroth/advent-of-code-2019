@@ -8,8 +8,8 @@
 
 class Container : public Day {
 public:
-	virtual void part_01() override;
-	virtual void part_02() override;
+	virtual std::string part_01() override;
+	virtual std::string part_02() override;
 
 	static std::unique_ptr<Day> create();
 	static std::string name();

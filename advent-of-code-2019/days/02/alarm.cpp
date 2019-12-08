@@ -1,31 +1,27 @@
 #include <iostream>
-#include <vector>
-
-#include <boost/algorithm/string/classification.hpp>
-#include <boost/algorithm/string/split.hpp>
 
 #include "alarm.hpp"
 #include "../day_factory.hpp"
 
-void Alarm::part_01() {
+std::string Alarm::part_01() {
 	auto program = get_program_from_string(source);
 	patch_program(program, {12, 2});
 	run_program(program);
-	std::cout << program[0] << std::endl;
+	return std::to_string(program[0]);
 }
 
-void Alarm::part_02() {
+std::string Alarm::part_02() {
 	for (int first = 0; first < 99; first++) {
 		for (int second = 0; second < 99; second++) {
 			auto program = get_program_from_string(source);
 			patch_program(program, { first, second });
 			run_program(program);
 			if (program[0] == 19690720) {
-				std::cout << first << ", " << second << std::endl;
-				return;
+				return std::to_string(first) + ", " + std::to_string(second);
 			}
 		}
 	}
+	return std::string();
 }
 
 std::unique_ptr<Day> Alarm::create() {
@@ -36,10 +32,9 @@ std::string Alarm::name() {
 	return "day02";
 }
 
-std::vector<int> Alarm::get_program_from_string(std::string_view source) {
+std::vector<int> Alarm::get_program_from_string(const std::string& source) {
 	std::vector<int> parsed;
-	std::vector<std::string> partially_parsed;
-	boost::split(partially_parsed, source, boost::is_any_of(","));
+	auto partially_parsed = split_string_by(source, ",");
 	for (const auto& elem : partially_parsed) {
 		parsed.push_back(std::stoi(elem));
 	}

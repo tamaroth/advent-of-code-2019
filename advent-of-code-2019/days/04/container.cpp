@@ -2,19 +2,12 @@
 #include "../day_factory.hpp"
 
 
-void Container::part_01() {
-	std::cout 
-		<< "viable passwords: " 
-		<< compute_number_of_viable_passwords(false) 
-		<< std::endl;
+std::string Container::part_01() {
+	return std::to_string(compute_number_of_viable_passwords(false));
 }
 
-void Container::part_02() {
-	
-	std::cout 
-		<< "viable passwords: " 
-		<< compute_number_of_viable_passwords(true) 
-		<< std::endl;
+std::string Container::part_02() {
+	return std::to_string(compute_number_of_viable_passwords(true));
 }
 
 int Container::compute_number_of_viable_passwords(bool must_have_two_adjecent_digits) {

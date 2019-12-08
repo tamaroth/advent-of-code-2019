@@ -1,23 +1,20 @@
 #include <algorithm>
 #include <ostream>
 
-#include <boost/algorithm/string/classification.hpp>
-#include <boost/algorithm/string/split.hpp>
-
 #include "wires.hpp"
 #include "../day_factory.hpp"
 
-void Wires::part_01() {
+std::string Wires::part_01() {
 	travel_steps(steps_01 = get_path_from_string(path_01));
 	travel_steps(steps_02 = get_path_from_string(path_02));
 	intersections = panel.intersections();
-	std::cout << get_closest_intersection_to_start().get_distance_from_start() << std::endl;
+	return std::to_string(get_closest_intersection_to_start().get_distance_from_start());
 }
 
-void Wires::part_02() {
+std::string Wires::part_02() {
 	travel_steps_and_count_distance_to_intersections(steps_01);
 	travel_steps_and_count_distance_to_intersections(steps_02);
-	std::cout << get_shortest_combined_distance_to_intersection();
+	return std::to_string(get_shortest_combined_distance_to_intersection());
 }
 
 std::unique_ptr<Day> Wires::create()
@@ -31,11 +28,9 @@ std::string Wires::name()
 }
 
 std::vector<Wires::Step> Wires::get_path_from_string(const std::string& string_path) {
-	std::vector<std::string> partially_parsed;
 	std::vector<Wires::Step> result;
 	auto identity = string_path[0];
-	auto path = string_path.substr(1);
-	boost::split(partially_parsed, path, boost::is_any_of(","));
+	auto partially_parsed = split_string_by(string_path.substr(1), ",");
 	for (const auto& str_step : partially_parsed) {
 		result.push_back(Wires::Step::from_string(str_step, identity));
 	}

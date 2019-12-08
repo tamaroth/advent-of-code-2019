@@ -1,25 +1,24 @@
 #include <cmath>
 #include <iostream>
-#include <vector>
 
 #include "tyranny.hpp"
 #include "../day_factory.hpp"
 
 
-void Tyranny::part_01() {
+std::string Tyranny::part_01() {
 	int64_t total_fuel = 0;
 	for (const auto& mass : source) {
 		total_fuel += get_fuel_requirements_for_mass(mass);
 	}
-	std::cout << total_fuel << std::endl;
+	return std::to_string(total_fuel);
 }
 
-void Tyranny::part_02() {
+std::string Tyranny::part_02() {
 	int64_t total_fuel = 0;
 	for (const auto& mass : source) {
 		total_fuel += get_fuel_for_mass(mass);
 	}
-	std::cout << total_fuel << std::endl;
+	return std::to_string(total_fuel);
 }
 
 std::unique_ptr<Day> Tyranny::create() {

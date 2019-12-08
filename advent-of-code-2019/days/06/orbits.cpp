@@ -1,10 +1,9 @@
-#include <boost/algorithm/string/classification.hpp>
-#include <boost/algorithm/string/split.hpp>
+#include <iostream>
 
 #include "orbits.hpp"
 #include "../day_factory.hpp"
 
-void Orbits::part_01() {
+std::string Orbits::part_01() {
 	#include "puzzle_input"
 	load_map(src);
 	int total_orbits = 0;
@@ -16,10 +15,10 @@ void Orbits::part_01() {
 			current = current->orbits_around;
 		}
 	}
-	std::cout << total_orbits << std::endl;
+	return std::to_string(total_orbits);
 }
 
-void Orbits::part_02() {
+std::string Orbits::part_02() {
 	std::vector<std::string> visited;
 	auto current = starmap.at("YOU").orbits_around;
 	while (current != nullptr) {
@@ -32,12 +31,12 @@ void Orbits::part_02() {
 	while (current != nullptr) {
 		auto element = std::find(visited.begin(), visited.end(), current->name);
 		if (element != visited.end()) {
-			std::cout << traversed + std::distance(visited.begin(), element) << std::endl;
-			return;
+			return std::to_string(traversed + std::distance(visited.begin(), element));
 		}
 		traversed++;
 		current = current->orbits_around;
 	}
+	return std::string("error");
 }
 
 std::unique_ptr<Day> Orbits::create() {
@@ -59,12 +58,6 @@ void Orbits::load_map(const std::string& src) {
 		starmap[orbit_names[1]].orbits_around = &starmap[orbit_names[0]];
 		starmap[orbit_names[0]].objects_orbitting.push_back(&starmap[orbit_names[1]]);
 	}
-}
-
-std::vector<std::string> Orbits::split_string_by(const std::string& src, const std::string& delimiter) {
-	std::vector<std::string> result;
-	boost::split(result, src, boost::is_any_of(delimiter));
-	return result;
 }
 
 bool Orbits::s_registered = DayFactory::register_day(
