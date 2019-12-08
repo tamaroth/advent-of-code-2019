@@ -11,7 +11,7 @@ void Asteroids::part_01() {
 }
 
 void Asteroids::part_02() {
-
+    // Is solved by part 1 by giving input: 5
 }
 
 std::unique_ptr<Day> Asteroids::create() {
