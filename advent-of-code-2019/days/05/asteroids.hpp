@@ -37,7 +37,7 @@ public:
 
 class Instruction {
 public:
-	
+
 
 public:
     Instruction(Pointer& pointer, Parameters parameters);
@@ -74,8 +74,8 @@ protected:
         );
     }
 
-    std::vector<Parameter> m_parameters;
     Pointer& m_pointer;
+    std::vector<Parameter> m_parameters;
 };
 
 class Add: public Instruction {
