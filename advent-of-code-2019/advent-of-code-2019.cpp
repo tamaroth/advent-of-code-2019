@@ -9,9 +9,8 @@
 int main()
 {
 	// I should add here some command line processing, but for now I'm too lazy.
-	auto d = DayFactory::create_day("day06");
-	if (d != nullptr)
-	{
+	auto d = DayFactory::create_day("day07");
+	if (d != nullptr) {
 		std::cout << d->part_01() << std::endl;
 		std::cout << d->part_02() << std::endl;
 	}

@@ -46,5 +46,5 @@ private:
 
 private:
 	static bool s_registered;
-	#include "puzzle_input";
+	#include "puzzle_input"
 };

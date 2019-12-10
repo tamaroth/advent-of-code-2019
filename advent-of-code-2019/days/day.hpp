@@ -14,7 +14,7 @@ public:
 	virtual std::string part_01() = 0;
 	virtual std::string part_02() = 0;
 
-	std::vector<std::string> split_string_by(const std::string& src, const std::string& delimiter) {
+	static std::vector<std::string> split_string_by(const std::string& src, const std::string& delimiter) {
 		std::vector<std::string> result;
 		boost::split(result, src, boost::is_any_of(delimiter));
 		return result;
