@@ -13,6 +13,7 @@ add_executable (advent-of-code-2019
 	"days/04/container.cpp"
 	"days/05/asteroids.cpp"
 	"days/06/orbits.cpp"
+	"days/07/circuit.cpp"
 	"advent-of-code-2019.cpp"
 	"advent-of-code-2019.hpp"
 	)

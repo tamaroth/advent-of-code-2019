@@ -9,6 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 if (UNIX)
+	string(APPEND CMAKE_CXX_FLAGS " -pthread")
 	string(APPEND CMAKE_CXX_FLAGS " -pedantic")
 	string(APPEND CMAKE_CXX_FLAGS " -Wfatal-errors")
 	string(APPEND CMAKE_CXX_FLAGS " -Wall -Wextra")
