@@ -22,6 +22,7 @@ enum class Type {
 	JZ = 6,
 	LT = 7,
 	EQ = 8,
+	BASE = 9,
 	STOP = 99,
 };
 
@@ -46,6 +47,7 @@ public:
 	enum class Mode: Value {
 		POSITION,
 		IMMEDIATE,
+		RELATIVE,
 	};
 
 public:
@@ -61,6 +63,7 @@ class CPU {
 public:
 	CPU(Memory& memory, Data& input, Data& output, Value base);
 	~CPU() = default;
+	void memory_size_guard(Value location);
 
 	Memory& memory;
 	Data& input;
@@ -71,20 +74,23 @@ public:
 // Generic instruction.
 class Instruction {
 public:
-	Instruction(Pointer& pointer, Parameters parameters);
+	Instruction(CPU& cpu, Parameters parameters, Value ip);
 	virtual ~Instruction() = default;
 	virtual void execute(CPU& cpu) = 0;
+	virtual Type get_opcode() const = 0;
+	virtual Value get_ip() const;
 
 protected:
 	template<typename TReturnType>
 	static std::unique_ptr<TReturnType> from_source(
-			Pointer& source, Value modes, int parameter_count) {
+			CPU& cpu, Value modes, Value ip, int parameter_count) {
 		std::vector<Parameter> parameters;
 		while (parameter_count--) {
-			parameters.push_back(Parameter(*source++, modes % 10));
+			parameters.push_back(Parameter(cpu.memory.at(ip), modes % 10));
+			ip++;
 			modes /= 10;
 		}
-		return std::make_unique<TReturnType>(source, parameters);
+		return std::make_unique<TReturnType>(cpu, parameters, ip);
 	}
 
 	Value get_parameter_with_mode(CPU& cpu, int parameter_id);
@@ -103,80 +109,101 @@ protected:
 		);
 	}
 
-	Pointer& m_pointer;
-	Parameters m_parameters;
+	Value ip;
+	Parameters parameters;
+	CPU& cpu;
 };
+
+std::unique_ptr<Instruction> instruction_factory(CPU& cpu, Value ip);
 
 class Add: public Instruction {
 public:
-	Add(Pointer& pointer, Parameters parameters);
+	Add(CPU& cpu, Parameters parameters, Value ip);
 	virtual ~Add() = default;
 	virtual void execute(CPU& cpu) override;
-	static std::unique_ptr<Add> from_source(Pointer& source, Value modes);
+	virtual Type get_opcode() const override { return Type::ADD; }
+	static std::unique_ptr<Add> from_source(CPU& cpu, Value modes, Value ip);
 };
 
 class Multiply : public Instruction {
 public:
-	Multiply(Pointer& pointer, Parameters parameters);
+	Multiply(CPU& cpu, Parameters parameters, Value ip);
 	virtual ~Multiply() = default;
 	virtual void execute(CPU& cpu) override;
-	static std::unique_ptr<Multiply> from_source(Pointer& source, Value modes);
+	virtual Type get_opcode() const override { return Type::MULTIPLY; }
+	static std::unique_ptr<Multiply> from_source(CPU& cpu, Value modes, Value ip);
 };
 
 class Input : public Instruction {
 public:
-	Input(Pointer& pointer, Parameters parameters);
+	Input(CPU& cpu, Parameters parameters, Value ip);
 	virtual ~Input() = default;
 	virtual void execute(CPU& cpu) override;
-	static std::unique_ptr<Input> from_source(Pointer& source, Value modes);
+	virtual Type get_opcode() const override { return Type::INPUT; }
+	static std::unique_ptr<Input> from_source(CPU& cpu, Value modes, Value ip);
 };
 
 class Output : public Instruction {
 public:
-	Output(Pointer& pointer, Parameters parameters);
+	Output(CPU& cpu, Parameters parameters, Value ip);
 	virtual ~Output() = default;
 	virtual void execute(CPU& cpu) override;
-	static std::unique_ptr<Output> from_source(Pointer& source, Value modes);
+	virtual Type get_opcode() const override { return Type::OUTPUT; }
+	static std::unique_ptr<Output> from_source(CPU& cpu, Value modes, Value ip);
 };
 
 class JumpTrue : public Instruction {
 public:
-	JumpTrue(Pointer& pointer, Parameters parameters);
+	JumpTrue(CPU& cpu, Parameters parameters, Value ip);
 	virtual ~JumpTrue() = default;
 	virtual void execute(CPU& cpu) override;
-	static std::unique_ptr<JumpTrue> from_source(Pointer& source, Value modes);
+	virtual Type get_opcode() const override { return Type::JNZ; }
+	static std::unique_ptr<JumpTrue> from_source(CPU& cpu, Value modes, Value ip);
 };
 
 class JumpFalse : public Instruction {
 public:
-	JumpFalse(Pointer& pointer, Parameters parameters);
+	JumpFalse(CPU& cpu, Parameters parameters, Value ip);
 	virtual ~JumpFalse() = default;
 	virtual void execute(CPU& cpu) override;
-	static std::unique_ptr<JumpFalse> from_source(Pointer& source, Value modes);
+	virtual Type get_opcode() const override { return Type::JZ; }
+	static std::unique_ptr<JumpFalse> from_source(CPU& cpu, Value modes, Value ip);
 };
 
 class LessThan : public Instruction {
 public:
-	LessThan(Pointer& pointer, Parameters parameters);
+	LessThan(CPU& cpu, Parameters parameters, Value ip);
 	virtual ~LessThan() = default;
 	virtual void execute(CPU& cpu) override;
-	static std::unique_ptr<LessThan> from_source(Pointer& source, Value modes);
+	virtual Type get_opcode() const override { return Type::LT; }
+	static std::unique_ptr<LessThan> from_source(CPU& cpu, Value modes, Value ip);
 };
 
 class Equal : public Instruction {
 public:
-	Equal(Pointer& pointer, Parameters parameters);
+	Equal(CPU& cpu, Parameters parameters, Value ip);
 	virtual ~Equal() = default;
 	virtual void execute(CPU& cpu) override;
-	static std::unique_ptr<Equal> from_source(Pointer& source, Value modes);
+	virtual Type get_opcode() const override { return Type::EQ; }
+	static std::unique_ptr<Equal> from_source(CPU& cpu, Value modes, Value ip);
+};
+
+class Base : public Instruction {
+public:
+	Base(CPU& cpu, Parameters parameters, Value ip);
+	virtual ~Base() = default;
+	virtual void execute(CPU& cpu) override;
+	virtual Type get_opcode() const override { return Type::BASE; }
+	static std::unique_ptr<Base> from_source(CPU& cpu, Value modes, Value ip);
 };
 
 class Stop : public Instruction {
 public:
-	Stop(Pointer& pointer, Parameters parameters);
+	Stop(CPU& cpu, Parameters parameters, Value ip);
 	virtual ~Stop() = default;
 	virtual void execute(CPU& cpu) override;
-	static std::unique_ptr<Stop> from_source(Pointer& source, Value modes);
+	virtual Type get_opcode() const override { return Type::STOP; }
+	static std::unique_ptr<Stop> from_source(CPU& cpu, Value modes, Value ip);
 };
 
 class Computer {
