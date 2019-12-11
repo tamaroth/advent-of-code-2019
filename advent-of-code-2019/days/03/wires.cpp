@@ -1,8 +1,9 @@
 #include <algorithm>
-#include <ostream>
 
-#include "wires.hpp"
 #include "../day_factory.hpp"
+#include "../utils.hpp"
+#include "wires.hpp"
+
 
 std::string Wires::part_01() {
 	travel_steps(steps_01 = get_path_from_string(path_01));
@@ -158,11 +159,6 @@ Wires::Intersections Wires::Panel::intersections() const {
 
 bool Wires::Panel::is_intersection(const Coordinate& coord) const {
 	return panel.at(coord).size() > 1;
-}
-
-std::ostream& operator<<(std::ostream& os, const Wires::Coordinate& coords) {
-	os << coords.x << " " << coords.y << std::endl;
-	return os;
 }
 
 bool Wires::s_registered = DayFactory::register_day(Wires::name(), Wires::create);

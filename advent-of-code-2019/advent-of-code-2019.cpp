@@ -5,14 +5,20 @@
 
 #include "advent-of-code-2019.hpp"
 #include "days/day_factory.hpp"
+#include "days/utils.hpp"
+
 
 int main()
 {
 	// I should add here some command line processing, but for now I'm too lazy.
-	auto d = DayFactory::create_day("day07");
-	if (d != nullptr) {
-		std::cout << d->part_01() << std::endl;
-		std::cout << d->part_02() << std::endl;
+	for (int i = 1; i <= 9; i++) {
+		auto day_name = "day" + int_to_str(i);
+		auto day = DayFactory::create_day(day_name);
+		std::cout << "Solution for " << day_name << std::endl;
+		if (day != nullptr) {
+			std::cout << day->part_01() << std::endl;
+			std::cout << day->part_02() << std::endl;
+		}
 	}
 	return 0;
 }

@@ -1,5 +1,5 @@
-#include "container.hpp"
 #include "../day_factory.hpp"
+#include "container.hpp"
 
 
 std::string Container::part_01() {
@@ -37,8 +37,7 @@ bool Container::is_current_password_viable(bool part2) const {
 
 	auto reminder = value % 10;
 	value /= 10;
-	do 
-	{
+	do {
 		auto new_reminder = value % 10;
 		if (reminder < new_reminder)
 			return false;

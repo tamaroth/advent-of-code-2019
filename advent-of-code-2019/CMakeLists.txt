@@ -7,6 +7,7 @@ cmake_minimum_required (VERSION 3.8)
 # Add source to this project's executable.
 add_executable (advent-of-code-2019
 	"days/day_factory.cpp"
+	"days/utils.cpp"
 	"days/01/tyranny.cpp"
 	"days/02/alarm.cpp"
 	"days/03/wires.cpp"

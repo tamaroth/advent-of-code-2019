@@ -1,5 +1,4 @@
 #include <cmath>
-#include <iostream>
 
 #include "tyranny.hpp"
 #include "../day_factory.hpp"

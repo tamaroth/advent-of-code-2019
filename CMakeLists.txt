@@ -35,7 +35,7 @@ if (UNIX)
 	endif()
 endif()
 
-find_package(Boost)
+find_package(boost)
 if(Boost_FOUND)
 	include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 endif()
