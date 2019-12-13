@@ -213,6 +213,7 @@ public:
 public:
 	void add_to_input(Value value);
 	void wait_for_input();
+	Value wait_for_input_and_pop();
 
 private:
 	Memory memory;

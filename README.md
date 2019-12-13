@@ -12,3 +12,4 @@
 | 8 | [Day 8: Space Image Format](./advent-of-code-2019/days/08/sif.cpp) | :heavy_check_mark: |
 | 9 | [Day 9: Sensor Boost](./advent-of-code-2019/days/09/boost.cpp) | :heavy_check_mark: |
 | 10 | [Day 10: Monitoring Station](./advent-of-code-2019/days/10/station.cpp) | :heavy_check_mark: |
+| 11 | [Day 11: Space Police](./advent-of-code-2019/days/11/police.cpp) | :heavy_check_mark: |

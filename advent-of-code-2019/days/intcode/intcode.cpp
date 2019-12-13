@@ -5,7 +5,7 @@
 
 namespace intcode {
 
-Parameter::Parameter(Value value, Value new_mode) : 
+Parameter::Parameter(Value value, Value new_mode) :
 	value(value),
 	mode(static_cast<Parameter::Mode>(new_mode)) {}
 
@@ -61,7 +61,7 @@ void Instruction::store_to_parameter(CPU& cpu, int parameter_id, Value value) {
 	cpu.memory[position] = value;
 }
 
-Add::Add(CPU& cpu, Parameters parameters, Value ip) : 
+Add::Add(CPU& cpu, Parameters parameters, Value ip) :
 	Instruction(cpu, parameters, ip) {}
 
 void Add::execute(CPU& cpu) {
@@ -72,7 +72,7 @@ std::unique_ptr<Add> Add::from_source(CPU& cpu, Value modes, Value ip) {
 	return Instruction::from_source<Add>(cpu, modes, ip, 3);
 }
 
-Multiply::Multiply(CPU& cpu, Parameters parameters, Value ip) : 
+Multiply::Multiply(CPU& cpu, Parameters parameters, Value ip) :
 	Instruction(cpu, parameters, ip) {}
 
 void Multiply::execute(CPU& cpu) {
@@ -83,7 +83,7 @@ std::unique_ptr<Multiply> Multiply::from_source(CPU& cpu, Value modes, Value ip)
 	return Instruction::from_source<Multiply>(cpu, modes, ip, 3);
 }
 
-Input::Input(CPU& cpu, Parameters parameters, Value ip) : 
+Input::Input(CPU& cpu, Parameters parameters, Value ip) :
 	Instruction(cpu, parameters, ip) {}
 
 void Input::execute(CPU& cpu) {
@@ -106,7 +106,7 @@ std::unique_ptr<Output> Output::from_source(CPU& cpu, Value modes, Value ip) {
 	return Instruction::from_source<Output>(cpu, modes, ip, 1);
 }
 
-JumpTrue::JumpTrue(CPU& cpu, Parameters parameters, Value ip) : 
+JumpTrue::JumpTrue(CPU& cpu, Parameters parameters, Value ip) :
 	Instruction(cpu, parameters, ip) {}
 
 void JumpTrue::execute(CPU& cpu) {
@@ -120,7 +120,7 @@ std::unique_ptr<JumpTrue> JumpTrue::from_source(CPU& cpu, Value modes, Value ip)
 	return Instruction::from_source<JumpTrue>(cpu, modes, ip, 2);
 }
 
-JumpFalse::JumpFalse(CPU& cpu, Parameters parameters, Value ip) : 
+JumpFalse::JumpFalse(CPU& cpu, Parameters parameters, Value ip) :
 	Instruction(cpu, parameters, ip) {}
 
 void JumpFalse::execute(CPU& cpu) {
@@ -134,7 +134,7 @@ std::unique_ptr<JumpFalse> JumpFalse::from_source(CPU& cpu, Value modes, Value i
 	return Instruction::from_source<JumpFalse>(cpu, modes, ip, 2);
 }
 
-LessThan::LessThan(CPU& cpu, Parameters parameters, Value ip) : 
+LessThan::LessThan(CPU& cpu, Parameters parameters, Value ip) :
 	Instruction(cpu, parameters, ip) {}
 
 void LessThan::execute(CPU& cpu) {
@@ -151,7 +151,7 @@ std::unique_ptr<LessThan> LessThan::from_source(CPU& cpu, Value modes, Value ip)
 	return Instruction::from_source<LessThan>(cpu, modes, ip, 3);
 }
 
-Equal::Equal(CPU& cpu, Parameters parameters, Value ip) : 
+Equal::Equal(CPU& cpu, Parameters parameters, Value ip) :
 	Instruction(cpu, parameters, ip) {}
 
 void Equal::execute(CPU& cpu) {
@@ -177,7 +177,7 @@ std::unique_ptr<Base> Base::from_source(CPU& cpu, Value modes, Value ip) {
 	return Instruction::from_source<Base>(cpu, modes, ip, 1);
 }
 
-Stop::Stop(CPU& cpu, Parameters parameters, Value ip) : 
+Stop::Stop(CPU& cpu, Parameters parameters, Value ip) :
 	Instruction(cpu, parameters, ip) {}
 
 void Stop::execute(CPU& /*cpu*/) { }
@@ -202,6 +202,15 @@ void Computer::wait_for_input() {
 	std::unique_lock lock(m);
 	cv.wait(lock, [&] { return input.size() != 0;});
 	lock.unlock();
+}
+
+Value Computer::wait_for_input_and_pop() {
+	std::unique_lock lock(m);
+	cv.wait(lock, [&] {return input.size() != 0;});
+	auto value = input.front();
+	input.pop_front();
+	lock.unlock();
+	return value;
 }
 
 std::unique_ptr<Instruction> instruction_factory(CPU& cpu, Value ip) {
@@ -241,13 +250,13 @@ void run_program_on_computer_with_id(Program& program, Memory::size_type id, Hoo
 	for (;;) {
 		auto inst = instruction_factory(comp.cpu, ip);
 		auto opcode = inst->get_opcode();
-		if (opcode == Type::STOP) {
-			return;
-		}
 		if (instruction_hooks.contains(opcode)) {
 			instruction_hooks[opcode](program, comp, inst);
 		} else {
 			inst->execute(comp.cpu);
+		}
+		if (opcode == Type::STOP) {
+			return;
 		}
 		ip = inst->get_ip();
 	}
