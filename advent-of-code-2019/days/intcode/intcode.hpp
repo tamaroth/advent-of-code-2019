@@ -230,7 +230,7 @@ public:
 void run_program_on_computer_with_id(Program& program, Memory::size_type id, Hooks instruction_hooks = {});
 void run_program_with_phase_settings(Program& program, Memory phase_settings, Hooks instruction_hooks = {});
 Program get_program_for_memory_with_phase_settings(const Memory& memory, const Memory& phase_settings);
-Program get_program_for_memory_with_patched_data(const Memory& memory, const Memory& patch);
+Program get_program_for_memory_with_patched_data(const Memory& memory, const Memory& patch, int idx = 1);
 Program get_program_for_memory_with_input_data(const Memory& memory, const Data& data);
 Memory get_memory_from_string(const std::string& source);
 

@@ -300,10 +300,11 @@ Program get_program_for_memory_with_phase_settings(const Memory& memory, const M
 	return program;
 }
 
-Program get_program_for_memory_with_patched_data(const Memory& memory, const Memory& patch) {
+Program get_program_for_memory_with_patched_data(const Memory& memory, const Memory& patch, int idx) {
 	Memory mem = memory;
-	mem[1] = patch[0];
-	mem[2] = patch[1];
+	for(const auto& val : patch) {
+		mem[idx++] = val;
+	}
 	return get_program_for_memory_with_input_data(mem, Data());
 }
 
