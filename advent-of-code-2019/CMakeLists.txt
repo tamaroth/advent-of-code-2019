@@ -19,6 +19,7 @@ add_executable (advent-of-code-2019
 	"days/09/boost.cpp"
 	"days/10/station.cpp"
 	"days/11/police.cpp"
+	"days/12/body.cpp"
 	"days/intcode/intcode.cpp"
 	"advent-of-code-2019.cpp"
 	"advent-of-code-2019.hpp"
