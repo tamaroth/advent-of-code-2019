@@ -13,3 +13,6 @@
 | 9 | [Day 9: Sensor Boost](./advent-of-code-2019/days/09/boost.cpp) | :heavy_check_mark: |
 | 10 | [Day 10: Monitoring Station](./advent-of-code-2019/days/10/station.cpp) | :heavy_check_mark: |
 | 11 | [Day 11: Space Police](./advent-of-code-2019/days/11/police.cpp) | :heavy_check_mark: |
+| 12 | [Day 12: The N-Body Problem](./advent-of-code-2019/days/12/body.cpp) | :heavy_check_mark: |
+| 13 | [Day 13: Care Package](./advent-of-code-2019/days/13/package.cpp) | :heavy_check_mark: |
+| 14 | [Day 14: Day 14: Space Stoichiometry](./advent-of-code-2019/days/14/space.cpp) | :heavy_check_mark: |

@@ -21,9 +21,11 @@ add_executable (advent-of-code-2019
 	"days/11/police.cpp"
 	"days/12/body.cpp"
 	"days/13/package.cpp"
+	"days/14/space.cpp"
 	"days/intcode/intcode.cpp"
 	"advent-of-code-2019.cpp"
 	"advent-of-code-2019.hpp"
 	)
 
 # TODO: Add tests and install targets if needed.
+target_link_libraries(advent-of-code-2019 ${Boost_LIBRARIES})
